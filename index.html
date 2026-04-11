@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ForWord | Dmitriy Kozlov — Explorer. Entrepreneur. Expressionist.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           ForWord Homepage — Brand Tokens
+           ============================================ */
+        :root {
+            /* Gold Palette */
+            --gold-dark: #99662D;
+            --gold-mid: #CB8E44;
+            --gold-light: #DEAD74;
+            --gold-gradient: linear-gradient(135deg, #99662D 0%, #CB8E44 35%, #DEAD74 65%, #CB8E44 100%);
+            --gold-gradient-h: linear-gradient(90deg, #99662D 0%, #CB8E44 30%, #DEAD74 50%, #CB8E44 70%, #99662D 100%);
+            --gold-text: linear-gradient(135deg, #DEAD74 0%, #CB8E44 50%, #DEAD74 100%);
+
+            /* Blue-Green Palette */
+            --blue-deep: #102452;
+            --teal: #008080;
+            --blue-green-gradient: linear-gradient(135deg, #102452 0%, #008080 100%);
+
+            /* Neutrals */
+            --bone: #E8E0D4;
+            --roman: #D5CFC7;
+            --charcoal: #1A1A1A;
+            --dark-bg: #0D0D0D;
+            --dark-section: #111111;
+            --dark-card: #1A1A1A;
+
+            /* Typography */
+            --font-headline: 'Montserrat', sans-serif;
+            --font-body: 'Montserrat', sans-serif;
+            --font-caption: 'Montserrat', sans-serif;
+        }
+
+        /* ============================================
+           Reset & Base
+           ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--dark-bg);
+            color: var(--bone);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        /* ============================================
+           Utility: Gold Text Gradient
+           ============================================ */
+        .gold-text {
+            background: var(--gold-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gold-line {
+            width: 60px;
+            height: 2px;
+            background: var(--gold-gradient-h);
+            margin: 1.5rem auto;
+        }
+
+        .gold-line-left {
+            margin: 1.5rem 0;
+        }
+
+        /* ============================================
+           Navigation
+           ============================================ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.25rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(13, 13, 13, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(203, 142, 68, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        nav.scrolled {
+            padding: 0.75rem 3rem;
+            background: rgba(13, 13, 13, 0.95);
+        }
+
+        .nav-logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--bone);
+            position: relative;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold-gradient-h);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold-light);
+        }
+
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .nav-hamburger span {
+            width: 24px;
+            height: 1.5px;
+            background: var(--gold-mid);
+            transition: all 0.3s ease;
+        }
+
+        /* ============================================
+           Hero Section
+           ============================================ */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.25;
+        }
+
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(13, 13, 13, 0.3) 0%,
+                rgba(13, 13, 13, 0.5) 40%,
+                rgba(13, 13, 13, 0.85) 80%,
+                rgba(13, 13, 13, 1) 100%
+            );
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 2rem;
+            padding-top: 6rem;
+        }
+
+        .hero-icon {
+            width: 80px;
+            height: auto;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-subtitle {
+            font-size: 0.8rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold-mid);
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-tagline {
+            font-size: clamp(2rem, 4.5vw, 3.5rem);
+            font-weight: 300;
+            line-height: 1.3;
+            color: var(--bone);
+            margin-bottom: 1rem;
+        }
+
+        .hero-tagline em {
+            font-style: italic;
+            font-weight: 300;
+        }
+
+        .hero-tagline .highlight {
+            font-weight: 500;
+        }
+
+        /* Word rotator — typewriter */
+        .word-rotator {
+            display: inline-block;
+            position: relative;
+            vertical-align: baseline;
+            text-align: left;
+        }
+
+        .word-rotator .sizer {
+            visibility: hidden;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .word-rotator .rotating-word {
+            position: absolute;
+            left: 0;
+            top: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            background: var(--gold-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 500;
+            border-right: 2px solid transparent;
+        }
+
+        .word-rotator .rotating-word.typing {
+            animation: typeIn 0.5s steps(10) forwards;
+            border-right-color: var(--gold-mid);
+        }
+
+        .word-rotator .rotating-word.hold {
+            width: 100%;
+            border-right-color: var(--gold-mid);
+            animation: cursorBlink 0.6s step-end infinite;
+        }
+
+        .word-rotator .rotating-word.erasing {
+            animation: typeOut 0.35s steps(8) forwards;
+            border-right-color: var(--gold-mid);
+        }
+
+        @keyframes typeIn {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes typeOut {
+            from { width: 100%; }
+            to { width: 0; }
+        }
+
+        @keyframes cursorBlink {
+            0%, 100% { border-right-color: var(--gold-mid); }
+            50% { border-right-color: transparent; }
+        }
+
+        /* Hand-drawn underline */
+        .hand-underline {
+            position: relative;
+            display: inline;
+        }
+
+        .hand-underline svg {
+            position: absolute;
+            bottom: -8px;
+            left: -4%;
+            width: 108%;
+            height: 14px;
+            overflow: visible;
+        }
+
+        .hand-underline svg path {
+            fill: none;
+            stroke: var(--gold-mid);
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-dasharray: 600;
+            stroke-dashoffset: 600;
+        }
+
+        .hand-underline.animate svg path {
+            animation: drawLine 1.2s ease forwards 0.5s;
+        }
+
+        @keyframes drawLine {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            font-weight: 300;
+            color: rgba(232, 224, 212, 0.7);
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-cta {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border: 1px solid var(--gold-mid);
+            color: var(--gold-light);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .hero-cta:hover {
+            color: var(--dark-bg);
+            border-color: var(--gold-light);
+        }
+
+        .hero-cta:hover::before {
+            opacity: 1;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 2;
+        }
+
+        .hero-scroll span {
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(203, 142, 68, 0.5);
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--gold-mid), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(0.6); }
+            50% { opacity: 1; transform: scaleY(1); }
+        }
+
+        /* ============================================
+           Featured / Press Bar
+           ============================================ */
+        .press-bar {
+            padding: 3rem 0;
+            border-top: 1px solid rgba(203, 142, 68, 0.08);
+            border-bottom: 1px solid rgba(203, 142, 68, 0.08);
+            background: var(--dark-bg);
+        }
+
+        .press-label {
+            text-align: center;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(203, 142, 68, 0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        .press-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3.5rem;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .press-logos span {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(232, 224, 212, 0.25);
+            transition: color 0.3s ease;
+        }
+
+        .press-logos span:hover {
+            color: var(--gold-mid);
+        }
+
+        /* ============================================
+           Dear Soul Section
+           ============================================ */
+        .dear-soul {
+            padding: 8rem 2rem;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .dear-soul-greeting {
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold-mid);
+            margin-bottom: 2rem;
+        }
+
+        .dear-soul-text {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.8;
+            color: var(--bone);
+        }
+
+        .dear-soul-text strong {
+            font-weight: 500;
+            font-style: normal;
+            display: block;
+            margin-top: 1.5rem;
+            font-size: 0.9em;
+        }
+
+        /* ============================================
+           Purpose Section (YOU ARE HERE)
+           ============================================ */
+        .purpose {
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .purpose::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(to bottom, transparent, var(--gold-mid));
+        }
+
+        .purpose-question {
+            font-size: 0.8rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(203, 142, 68, 0.5);
+            margin-bottom: 3rem;
+            padding-top: 3rem;
+        }
+
+        .purpose-statement {
+            font-size: clamp(1.5rem, 3.5vw, 2.8rem);
+            font-weight: 300;
+            line-height: 1.4;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .purpose-statement .accent {
+            display: block;
+            margin-top: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        .purpose-sub {
+            font-size: 1.15rem;
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(232, 224, 212, 0.65);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           Mission / Quote
+           ============================================ */
+        .mission {
+            padding: 6rem 2rem;
+            background: var(--dark-section);
+            position: relative;
+        }
+
+        .mission-inner {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+
+        .mission-quote-mark {
+            font-size: 6rem;
+            line-height: 1;
+            background: var(--gold-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0.4;
+            margin-bottom: -1rem;
+        }
+
+        .mission-text {
+            font-size: clamp(1.2rem, 2vw, 1.6rem);
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.9;
+            color: var(--bone);
+        }
+
+        .mission-author {
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold-mid);
+        }
+
+        /* ============================================
+           Profile / Hero Split
+           ============================================ */
+        .profile-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 90vh;
+            overflow: hidden;
+        }
+
+        .profile-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+
+        .profile-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                90deg,
+                transparent 60%,
+                rgba(13, 13, 13, 0.4) 85%,
+                rgba(13, 13, 13, 0.9) 100%
+            );
+        }
+
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem 5rem;
+            background: var(--dark-bg);
+        }
+
+        .profile-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold-mid);
+            margin-bottom: 2rem;
+        }
+
+        .profile-name {
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 300;
+            color: var(--bone);
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-title {
+            font-size: 1rem;
+            font-weight: 300;
+            color: rgba(232, 224, 212, 0.6);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+
+        .profile-roles {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .profile-roles li {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: var(--bone);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .profile-roles li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 8px;
+            height: 1px;
+            background: var(--gold-mid);
+        }
+
+        .profile-roles li span {
+            color: rgba(232, 224, 212, 0.5);
+            font-weight: 300;
+        }
+
+        /* ============================================
+           Three Pillars Section
+           ============================================ */
+        .pillars {
+            padding: 8rem 2rem;
+            background: var(--dark-bg);
+        }
+
+        .pillars-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .pillars-header h2 {
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold-mid);
+            font-weight: 500;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pillar-card {
+            background: var(--dark-card);
+            border: 1px solid rgba(203, 142, 68, 0.1);
+            padding: 3rem 2.5rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pillar-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gold-gradient-h);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .pillar-card:hover {
+            border-color: rgba(203, 142, 68, 0.25);
+            transform: translateY(-4px);
+        }
+
+        .pillar-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .pillar-number {
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            color: var(--gold-mid);
+            opacity: 0.5;
+            margin-bottom: 2rem;
+        }
+
+        .pillar-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            color: var(--bone);
+        }
+
+        .pillar-subtitle {
+            font-size: 0.85rem;
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(232, 224, 212, 0.5);
+        }
+
+        /* ============================================
+           Signature Soul Brand Section
+           ============================================ */
+        .ssb-section {
+            padding: 5rem 2rem;
+            background: radial-gradient(ellipse at center, #FDF6EE 0%, #F0E0CF 50%, #E8D5C0 100%);
+            text-align: center;
+        }
+
+        .ssb-inner {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .ssb-logo {
+            width: 280px;
+            height: auto;
+            margin: 0 auto 2.5rem;
+        }
+
+        .ssb-headline {
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            color: #221F1C;
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+        }
+
+        .ssb-headline .ssb-gold {
+            background: linear-gradient(135deg, #CB8E44 0%, #DEAD74 50%, #CB8E44 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .ssb-subheadline {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #70665C;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+        }
+
+        .ssb-cta {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: #C08C59;
+            color: #fff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .ssb-cta:hover {
+            background: #A87A4D;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(192, 140, 89, 0.35);
+        }
+
+        .ssb-detail {
+            margin-top: 1.25rem;
+            font-size: 0.8rem;
+            color: #A09688;
+            letter-spacing: 0.05em;
+        }
+
+        /* ============================================
+           Influex Section
+           ============================================ */
+        .influex-section {
+            padding: 5rem 2rem;
+            background: #0A0A0A;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .influex-section::after {
+            content: '';
+            position: absolute;
+            top: -30%;
+            left: 0;
+            right: 0;
+            height: 160%;
+            background: url('assets/influex-bg.jpg') center center / cover no-repeat;
+            opacity: 0.3;
+            z-index: 0;
+            transform: translateY(var(--parallax-y, 0));
+            will-change: transform;
+        }
+
+        .influex-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(10, 10, 10, 0.7) 0%,
+                rgba(10, 10, 10, 0.4) 50%,
+                rgba(10, 10, 10, 0.7) 100%
+            );
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .influex-inner {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .influex-logo {
+            width: 200px;
+            height: auto;
+            margin: 0 auto 2.5rem;
+        }
+
+        .influex-headline {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 300;
+            color: var(--gold-light);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            font-style: italic;
+        }
+
+        .influex-headline strong {
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        .influex-cta {
+            display: inline-block;
+            padding: 1rem 3rem;
+            border: 1px solid rgba(232, 224, 212, 0.3);
+            color: var(--bone);
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .influex-cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gold-gradient);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .influex-cta:hover {
+            border-color: var(--gold-mid);
+            color: var(--dark-bg);
+        }
+
+        .influex-cta:hover::before {
+            opacity: 1;
+        }
+
+        /* ============================================
+           ForWord Brand Card
+           ============================================ */
+        .forword-brand {
+            padding: 4rem 2rem;
+            background: var(--dark-section);
+            text-align: center;
+            border-top: 1px solid rgba(203, 142, 68, 0.08);
+        }
+
+        .forword-brand-inner {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .forword-brand h3 {
+            font-size: 1.4rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            margin-bottom: 0.75rem;
+        }
+
+        .forword-brand p {
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: rgba(232, 224, 212, 0.45);
+            line-height: 1.6;
+        }
+
+        /* ============================================
+           SoundCloud Section
+           ============================================ */
+        .soundcloud-section {
+            padding: 5rem 2rem;
+            background: var(--dark-bg);
+            border-top: 1px solid rgba(203, 142, 68, 0.08);
+        }
+
+        .soundcloud-inner {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .soundcloud-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .soundcloud-header h2 {
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold-mid);
+            font-weight: 500;
+        }
+
+        .soundcloud-embed {
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .soundcloud-embed iframe {
+            display: block;
+            width: 100%;
+            border: none;
+        }
+
+        /* ============================================
+           CTA / Connect Section
+           ============================================ */
+        .connect {
+            padding: 8rem 2rem;
+            text-align: center;
+            position: relative;
+            background: var(--dark-bg);
+        }
+
+        .connect::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(to bottom, transparent, var(--gold-mid));
+        }
+
+        .connect-inner {
+            max-width: 650px;
+            margin: 0 auto;
+            padding-top: 3rem;
+        }
+
+        .connect-question {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+            font-weight: 300;
+            font-style: italic;
+            line-height: 1.7;
+            color: var(--bone);
+            margin-bottom: 2.5rem;
+        }
+
+        .connect-cta {
+            display: inline-block;
+            padding: 1.1rem 3.5rem;
+            background: var(--gold-gradient);
+            color: var(--dark-bg);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+        }
+
+        .connect-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(203, 142, 68, 0.3);
+        }
+
+        /* ============================================
+           Footer
+           ============================================ */
+        footer {
+            padding: 3rem 3rem 2rem;
+            border-top: 1px solid rgba(203, 142, 68, 0.08);
+            background: var(--dark-bg);
+        }
+
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            height: 30px;
+            width: auto;
+            opacity: 0.6;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-social a {
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(232, 224, 212, 0.3);
+        }
+
+        .footer-social a:hover {
+            color: var(--gold-mid);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(203, 142, 68, 0.05);
+        }
+
+        .footer-bottom p {
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: rgba(232, 224, 212, 0.2);
+        }
+
+        /* ============================================
+           Animations
+           ============================================ */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           Responsive
+           ============================================ */
+        @media (max-width: 1024px) {
+            .profile-hero {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-image {
+                height: 60vh;
+            }
+
+            .profile-image::after {
+                background: linear-gradient(
+                    180deg,
+                    transparent 40%,
+                    rgba(13, 13, 13, 0.8) 90%,
+                    rgba(13, 13, 13, 1) 100%
+                );
+            }
+
+            .profile-content {
+                padding: 3rem 2rem;
+            }
+
+            .pillars-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+            }
+
+            .brands-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 100%;
+                height: 100vh;
+                background: rgba(13, 13, 13, 0.97);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+
+            .nav-hamburger {
+                display: flex;
+            }
+
+            .hero-content {
+                padding-top: 8rem;
+            }
+
+            .press-logos {
+                gap: 2rem;
+            }
+
+            .dear-soul {
+                padding: 5rem 1.5rem;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================
+         Navigation
+         ============================================ -->
+    <nav id="navbar">
+        <img src="assets/logo-icon.png" alt="ForWord" class="nav-logo">
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">Who Am I?</a></li>
+            <li><a href="#words">Words</a></li>
+            <li><a href="#service">Service</a></li>
+            <li><a href="#impact">Impact</a></li>
+            <li><a href="#stages">Stages</a></li>
+            <li><a href="#connect">Connect</a></li>
+        </ul>
+        <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- ============================================
+         Hero
+         ============================================ -->
+    <section class="hero" id="home">
+        <div class="hero-bg">
+            <img src="assets/hero-bg.jpg" alt="">
+        </div>
+        <div class="hero-content">
+            <img src="assets/logo-icon.png" alt="ForWord Icon" class="hero-icon">
+            <p class="hero-subtitle">Explorer &middot; Entrepreneur &middot; Expressionist</p>
+            <h1 class="hero-tagline">
+                Your Greatest <span class="word-rotator highlight"><span class="sizer">Influence</span><span class="rotating-word hold">Influence</span><span class="rotating-word">Impact</span><span class="rotating-word">Income</span></span><br>
+                Come Through Your <em class="hand-underline">Fullest Expression.<svg viewBox="0 0 300 12" preserveAspectRatio="none"><path d="M2 8 C40 2, 80 12, 120 6 S200 2, 240 8 S280 10, 298 5"/></svg></em>
+            </h1>
+            <p class="hero-description">Moving The World Forward With Words.</p>
+            <a href="#connect" class="hero-cta">Join The Journey</a>
+        </div>
+        <div class="hero-scroll">
+            <span>Scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         Press Bar
+         ============================================ -->
+    <div class="press-bar">
+        <p class="press-label">As Featured In</p>
+        <div class="press-logos">
+            <span>Forbes</span>
+            <span>Entrepreneur</span>
+            <span>Inc 5000</span>
+            <span>Genius Network</span>
+            <span>Maverick</span>
+            <span>War Room</span>
+        </div>
+    </div>
+
+    <!-- ============================================
+         Dear Soul
+         ============================================ -->
+    <section class="dear-soul fade-in">
+        <p class="dear-soul-greeting">A Letter To You</p>
+        <div class="gold-line"></div>
+        <p class="dear-soul-text">
+            Dear Soul,<br>
+            Thank you for being here.
+            <strong class="gold-text">You Are Here To Be-YOU-ti-Fully Express Your Soul.</strong>
+        </p>
+    </section>
+
+    <!-- ============================================
+         Purpose
+         ============================================ -->
+    <section class="purpose fade-in" id="about">
+        <p class="purpose-question">Why Are You Here?</p>
+        <h2 class="purpose-statement">
+            You Are Here.<br>
+            <span class="accent gold-text">To Fully. Express. Your Soul.</span>
+        </h2>
+        <p class="purpose-sub">You Are Here To Beautifully Express Your Soul.</p>
+    </section>
+
+    <!-- ============================================
+         Mission Quote
+         ============================================ -->
+    <section class="mission fade-in">
+        <div class="mission-inner">
+            <div class="mission-quote-mark">&ldquo;</div>
+            <p class="mission-text">
+                I'm here to inspire and empower you to live your fullest expression,
+                to give your greatest gifts, and to love out loud on the stage of your life.
+            </p>
+            <div class="gold-line"></div>
+            <p class="mission-author">Dmitriy Kozlov &mdash; ForWordCEO</p>
+        </div>
+    </section>
+
+    <!-- ============================================
+         Profile Split
+         ============================================ -->
+    <section class="profile-hero" id="service">
+        <div class="profile-image">
+            <img src="assets/profile.jpg" alt="Dmitriy Kozlov">
+        </div>
+        <div class="profile-content">
+            <p class="profile-label">Meet ForWord</p>
+            <h2 class="profile-name">Dmitriy Kozlov</h2>
+            <p class="profile-title">Chief Expression Officer &amp; Founder at Influex</p>
+            <div class="gold-line gold-line-left"></div>
+            <ul class="profile-roles">
+                <li>Chief Expression Officer <span>&mdash; Influex</span></li>
+                <li>Serial Entrepreneur</li>
+                <li>Poet <span>&mdash; ForWord</span></li>
+                <li>Explorer <span>&mdash; From Darkness to Dharma</span></li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- ============================================
+         Three Pillars
+         ============================================ -->
+    <section class="pillars fade-in" id="words">
+        <div class="pillars-header">
+            <h2>The Work</h2>
+            <div class="gold-line"></div>
+        </div>
+        <div class="pillars-grid">
+            <div class="pillar-card">
+                <p class="pillar-number">01</p>
+                <h3 class="pillar-title">Words For<br>The World</h3>
+                <p class="pillar-subtitle">Posts &amp; Poems</p>
+            </div>
+            <div class="pillar-card" id="stages">
+                <p class="pillar-number">02</p>
+                <h3 class="pillar-title">Press, Pages<br>&amp; Stages</h3>
+                <p class="pillar-subtitle">Amplified To Audiences</p>
+            </div>
+            <div class="pillar-card" id="impact">
+                <p class="pillar-number">03</p>
+                <h3 class="pillar-title">Who I Serve</h3>
+                <p class="pillar-subtitle">Impacting Industry Influencers, Icons &amp; Innovators</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         Signature Soul Brand
+         ============================================ -->
+    <section class="ssb-section fade-in">
+        <div class="ssb-inner">
+            <img src="assets/ssb-logo.png" alt="Signature Soul Brand" class="ssb-logo">
+            <h2 class="ssb-headline">
+                Discover Your<br>
+                <span class="ssb-gold">SoulBrand Archetype</span>
+            </h2>
+            <p class="ssb-subheadline">
+                Uncover the archetype that shapes the soul of your brand identity,
+                messaging, and magnetic presence. Discover your core expression and
+                the archetypal energies that influence how you show up, create, and lead,
+                so you can step into your fullest, most aligned brand.
+            </p>
+            <a href="https://soulbrandquiz.com" target="_blank" rel="noopener" class="ssb-cta">Take the Quiz &rarr;</a>
+            <p class="ssb-detail">&#10038; 20 questions &middot; 3 minutes &middot; Free</p>
+        </div>
+    </section>
+
+    <!-- ============================================
+         Influex
+         ============================================ -->
+    <section class="influex-section fade-in">
+        <div class="influex-inner">
+            <img src="assets/influex-logo.svg" alt="Influex" class="influex-logo">
+            <p class="influex-headline">
+                We design <strong>Iconic Brands &amp; World-Class Websites</strong> that
+                Express Your Essence &amp; Amplify Your Authority.
+            </p>
+            <a href="https://influex.com" target="_blank" rel="noopener" class="influex-cta">Explore Portfolio</a>
+        </div>
+    </section>
+
+    <!-- ============================================
+         ForWord Brand
+         ============================================ -->
+    <section class="forword-brand fade-in">
+        <div class="forword-brand-inner">
+            <img src="assets/logo-full.png" alt="ForWord" class="forword-brand-logo" style="width: 280px; height: auto; margin: 0 auto 2rem;">
+            <h3 class="gold-text" style="font-size: 1.5rem; font-weight: 300; font-style: italic; letter-spacing: 0.05em; margin-bottom: 2rem;">Moving The World ForWord With Words</h3>
+            <a href="#words" class="hero-cta" style="font-size: 0.7rem;">Watch My Words</a>
+        </div>
+    </section>
+
+    <!-- ============================================
+         SoundCloud
+         ============================================ -->
+    <section class="soundcloud-section fade-in">
+        <div class="soundcloud-inner">
+            <div class="soundcloud-header">
+                <h2>Listen</h2>
+                <div class="gold-line"></div>
+            </div>
+            <div class="soundcloud-embed">
+                <iframe width="100%" height="450" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/forwordflows&color=%23cb8e44&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=false"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================
+         Connect CTA
+         ============================================ -->
+    <section class="connect fade-in" id="connect">
+        <div class="connect-inner">
+            <p class="connect-question">
+                Want your own beautiful personal brand site to express your essence
+                and amplify your influence online?
+            </p>
+            <a href="#" class="connect-cta">Discover What Influex Can Create For You</a>
+        </div>
+    </section>
+
+    <!-- ============================================
+         Footer
+         ============================================ -->
+    <footer>
+        <div class="footer-inner">
+            <img src="assets/logo-full.png" alt="ForWord" class="footer-logo">
+            <div class="footer-social">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">SoundCloud</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ForWord &middot; Dmitriy Kozlov &middot; All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <!-- ============================================
+         Scripts
+         ============================================ -->
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('scrolled', window.scrollY > 60);
+        });
+
+        // Mobile menu
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+        }
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navLinks').classList.remove('open');
+            });
+        });
+
+        // Scroll fade-in animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Typewriter word rotator
+        const rotWords = document.querySelectorAll('.rotating-word');
+        let rotIdx = 0;
+
+        function typewriterCycle() {
+            const current = rotWords[rotIdx];
+            // Hold phase complete → erase
+            setTimeout(() => {
+                current.classList.remove('hold');
+                current.classList.add('erasing');
+
+                setTimeout(() => {
+                    // Reset current word
+                    current.classList.remove('erasing');
+                    current.style.width = '';
+                    current.style.borderRightColor = '';
+
+                    // Advance to next word
+                    rotIdx = (rotIdx + 1) % rotWords.length;
+                    const next = rotWords[rotIdx];
+
+                    // Type in next word
+                    next.style.width = '';
+                    next.classList.add('typing');
+
+                    setTimeout(() => {
+                        // Typing done → hold with blinking cursor
+                        next.classList.remove('typing');
+                        next.style.width = '100%';
+                        next.classList.add('hold');
+                        typewriterCycle();
+                    }, 500);
+                }, 350);
+            }, 1200);
+        }
+
+        // First word starts in hold state (set in HTML)
+        rotWords[0].style.width = '100%';
+        typewriterCycle();
+
+        // Hand-drawn underline animation on load
+        setTimeout(() => {
+            document.querySelector('.hand-underline')?.classList.add('animate');
+        }, 600);
+
+        // Parallax scroll for Influex background
+        window.addEventListener('scroll', () => {
+            const section = document.querySelector('.influex-section');
+            if (!section) return;
+            const rect = section.getBoundingClientRect();
+            const scrolled = -rect.top * 0.3;
+            const afterEl = section.style;
+            section.style.setProperty('--parallax-y', scrolled + 'px');
+        });
+    </script>
+
+</body>
+</html>
