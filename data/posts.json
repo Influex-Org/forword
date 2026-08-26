@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "expression-over-performance",
+    "title": "Expression Over Performance",
+    "type": "article",
+    "excerpt": "The world doesn't need another performer. It needs your fullest expression. Here's why the most iconic brands are built from truth, not tactics.",
+    "body": "There's a moment in every entrepreneur's journey where the mask starts to crack.\n\nYou've been performing. Saying the right things. Posting the right content. Building the brand everyone told you to build.\n\nBut it doesn't feel like yours.\n\nBecause it isn't.\n\nThe most iconic brands in the world aren't built on performance. They're built on expression. On the raw, unfiltered, sometimes uncomfortable truth of who you actually are.\n\nExpression over performance isn't just a philosophy. It's a strategy. And it's the only one that lasts.",
+    "featuredImage": "assets/hero-bg.jpg",
+    "videoUrl": "",
+    "audioUrl": "",
+    "date": "2026-03-15",
+    "published": true
+  },
+  {
+    "slug": "genius-network-spoken-word",
+    "title": "Spoken Word at Genius Network",
+    "type": "video",
+    "excerpt": "ForWord takes the Genius Network stage with a spoken word piece that brought the room to its feet. Poetry meets entrepreneurship.",
+    "body": "Performing spoken word at Genius Network was one of those full-circle moments. The room was full of industry titans — and for five minutes, we didn't talk strategy. We felt something.",
+    "featuredImage": "assets/influex-bg.jpg",
+    "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    "audioUrl": "",
+    "date": "2026-02-20",
+    "published": true
+  },
+  {
+    "slug": "the-spark",
+    "title": "The Spark — A Spoken Word Piece",
+    "type": "audio",
+    "excerpt": "Before the brand, before the business, before the stage — there was a spark. This is the poem that started it all.",
+    "body": "Every journey begins with a single spark. A moment where something inside you says: there has to be more. This spoken word piece captures that moment — the one before the leap, before the landing, before the becoming.",
+    "featuredImage": "assets/hero-bg.jpg",
+    "videoUrl": "",
+    "audioUrl": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/forwordflows&color=%23cb8e44&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false",
+    "date": "2026-01-10",
+    "published": true
+  }
+]
