@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | ForWord CMS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold-mid: #CB8E44;
+            --gold-light: #DEAD74;
+            --gold-gradient: linear-gradient(135deg, #99662D 0%, #CB8E44 35%, #DEAD74 65%, #CB8E44 100%);
+            --bone: #E8E0D4;
+            --dark-bg: #0D0D0D;
+            --dark-card: #1A1A1A;
+            --font: 'Montserrat', sans-serif;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font); background: var(--dark-bg); color: var(--bone); min-height: 100vh; }
+
+        /* Header */
+        .admin-header {
+            padding: 1.25rem 2rem; display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid rgba(203,142,68,0.1); background: rgba(13,13,13,0.95);
+        }
+        .admin-header h1 { font-size: 0.8rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold-mid); font-weight: 500; }
+        .admin-header a { font-size: 0.7rem; color: rgba(232,224,212,0.4); letter-spacing: 0.15em; text-transform: uppercase; text-decoration: none; }
+        .admin-header a:hover { color: var(--gold-mid); }
+
+        /* Layout */
+        .admin-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 2rem; max-width: 1400px; margin: 0 auto; }
+
+        /* Form Panel */
+        .panel { background: var(--dark-card); border: 1px solid rgba(203,142,68,0.08); padding: 2rem; }
+        .panel-title { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold-mid); font-weight: 600; margin-bottom: 1.5rem; }
+
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-mid); font-weight: 500; margin-bottom: 0.3rem; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; background: rgba(232,224,212,0.04); border: 1px solid rgba(203,142,68,0.15);
+            color: var(--bone); font-family: var(--font); font-size: 0.85rem; font-weight: 300;
+            padding: 0.7rem 0.8rem; outline: none; transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--gold-mid); }
+        .form-group textarea { resize: vertical; min-height: 160px; line-height: 1.7; }
+        .form-group select { cursor: pointer; }
+        .form-group select option { background: var(--dark-card); color: var(--bone); }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+
+        .form-hint { font-size: 0.7rem; color: rgba(232,224,212,0.3); margin-top: 0.25rem; }
+
+        .btn {
+            display: inline-block; padding: 0.8rem 2rem; font-family: var(--font); font-size: 0.7rem;
+            font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.3s;
+        }
+        .btn-gold { background: var(--gold-gradient); color: var(--dark-bg); }
+        .btn-gold:hover { transform: translateY(-1px); box-shadow: 0 4px 15px rgba(203,142,68,0.3); }
+        .btn-outline { background: none; border: 1px solid rgba(232,224,212,0.2); color: var(--bone); }
+        .btn-outline:hover { border-color: var(--gold-mid); color: var(--gold-mid); }
+        .btn-danger { background: none; border: 1px solid rgba(200,60,60,0.3); color: rgba(200,60,60,0.6); }
+        .btn-danger:hover { border-color: rgba(200,60,60,0.6); color: rgba(200,60,60,0.9); }
+
+        .form-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+
+        /* Posts List */
+        .post-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .post-item {
+            display: flex; align-items: center; justify-content: space-between; padding: 1rem;
+            border: 1px solid rgba(203,142,68,0.06); transition: border-color 0.3s;
+        }
+        .post-item:hover { border-color: rgba(203,142,68,0.15); }
+        .post-item-info { flex: 1; }
+        .post-item-title { font-size: 0.9rem; font-weight: 500; color: var(--bone); margin-bottom: 0.25rem; }
+        .post-item-meta { font-size: 0.7rem; color: rgba(232,224,212,0.35); }
+        .post-item-meta span { margin-right: 1rem; }
+        .post-item-badge {
+            display: inline-block; padding: 0.15rem 0.5rem; font-size: 0.55rem; font-weight: 700;
+            letter-spacing: 0.15em; text-transform: uppercase; background: var(--gold-gradient);
+            color: var(--dark-bg); margin-right: 0.5rem;
+        }
+        .post-item-actions { display: flex; gap: 0.5rem; }
+        .post-item-actions button {
+            background: none; border: 1px solid rgba(203,142,68,0.1); color: rgba(232,224,212,0.4);
+            font-family: var(--font); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+            padding: 0.4rem 0.8rem; cursor: pointer; transition: all 0.3s;
+        }
+        .post-item-actions button:hover { border-color: var(--gold-mid); color: var(--gold-mid); }
+        .post-item-actions button.delete:hover { border-color: rgba(200,60,60,0.5); color: rgba(200,60,60,0.7); }
+
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 2rem; right: 2rem; padding: 0.8rem 1.5rem;
+            background: var(--gold-mid); color: var(--dark-bg); font-size: 0.75rem; font-weight: 600;
+            letter-spacing: 0.1em; opacity: 0; transform: translateY(10px);
+            transition: opacity 0.3s, transform 0.3s; z-index: 9999;
+        }
+        .toast.show { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 900px) {
+            .admin-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="admin-header">
+        <h1>ForWord CMS</h1>
+        <a href="words.html" target="_blank">View Blog &rarr;</a>
+    </header>
+
+    <div class="admin-layout">
+        <!-- Form -->
+        <div class="panel">
+            <p class="panel-title" id="formTitle">New Post</p>
+            <form id="postForm" onsubmit="savePost(event)">
+                <input type="hidden" id="editSlug" value="">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="title" placeholder="Post title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Type</label>
+                        <select id="type">
+                            <option value="article">Article</option>
+                            <option value="video">Video</option>
+                            <option value="audio">Audio</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date</label>
+                        <input type="date" id="date">
+                    </div>
+                    <div class="form-group">
+                        <label>Featured Image URL</label>
+                        <input type="text" id="featuredImage" placeholder="assets/blog/image.jpg">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Video Embed URL</label>
+                        <input type="text" id="videoUrl" placeholder="https://youtube.com/embed/...">
+                        <p class="form-hint">For Video posts — use embed URL</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Audio Embed URL</label>
+                        <input type="text" id="audioUrl" placeholder="https://w.soundcloud.com/player/...">
+                        <p class="form-hint">For Audio posts — use SoundCloud player URL</p>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Excerpt</label>
+                    <input type="text" id="excerpt" placeholder="Short description for the blog feed">
+                </div>
+
+                <div class="form-group">
+                    <label>Body</label>
+                    <textarea id="body" placeholder="Full post content. Separate paragraphs with blank lines."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Featured Image</label>
+                    <input type="file" id="imageUpload" accept="image/*" onchange="uploadImage()" style="font-size: 0.8rem;">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-gold">Save Post</button>
+                    <button type="button" class="btn btn-outline" onclick="resetForm()">Clear</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Posts List -->
+        <div class="panel">
+            <p class="panel-title">All Posts</p>
+            <div class="post-list" id="postList"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const API = '/api/posts';
+
+        async function loadPosts() {
+            const res = await fetch(API);
+            const posts = await res.json();
+            const list = document.getElementById('postList');
+
+            if (posts.length === 0) {
+                list.innerHTML = '<p style="color: rgba(232,224,212,0.3); font-size: 0.85rem;">No posts yet.</p>';
+                return;
+            }
+
+            list.innerHTML = posts.map(p => `
+                <div class="post-item">
+                    <div class="post-item-info">
+                        <div class="post-item-title">
+                            <span class="post-item-badge">${p.type}</span>
+                            ${p.title}
+                        </div>
+                        <div class="post-item-meta">
+                            <span>${p.date}</span>
+                            <span>${p.published ? 'Published' : 'Draft'}</span>
+                        </div>
+                    </div>
+                    <div class="post-item-actions">
+                        <button onclick="editPost('${p.slug}')">Edit</button>
+                        <button class="delete" onclick="deletePost('${p.slug}')">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function savePost(e) {
+            e.preventDefault();
+            const editSlug = document.getElementById('editSlug').value;
+            const data = {
+                title: document.getElementById('title').value,
+                type: document.getElementById('type').value,
+                date: document.getElementById('date').value || new Date().toISOString().split('T')[0],
+                excerpt: document.getElementById('excerpt').value,
+                body: document.getElementById('body').value,
+                featuredImage: document.getElementById('featuredImage').value,
+                videoUrl: document.getElementById('videoUrl').value,
+                audioUrl: document.getElementById('audioUrl').value,
+                published: true
+            };
+
+            const method = editSlug ? 'PUT' : 'POST';
+            const url = editSlug ? `${API}/${editSlug}` : API;
+
+            await fetch(url, {
+                method,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            showToast(editSlug ? 'Post updated' : 'Post created');
+            resetForm();
+            loadPosts();
+        }
+
+        async function editPost(slug) {
+            const res = await fetch(`${API}/${slug}`);
+            const p = await res.json();
+
+            document.getElementById('editSlug').value = p.slug;
+            document.getElementById('title').value = p.title;
+            document.getElementById('type').value = p.type;
+            document.getElementById('date').value = p.date;
+            document.getElementById('excerpt').value = p.excerpt;
+            document.getElementById('body').value = p.body;
+            document.getElementById('featuredImage').value = p.featuredImage;
+            document.getElementById('videoUrl').value = p.videoUrl;
+            document.getElementById('audioUrl').value = p.audioUrl;
+            document.getElementById('formTitle').textContent = 'Edit Post';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        async function deletePost(slug) {
+            if (!confirm('Delete this post?')) return;
+            await fetch(`${API}/${slug}`, { method: 'DELETE' });
+            showToast('Post deleted');
+            loadPosts();
+        }
+
+        async function uploadImage() {
+            const file = document.getElementById('imageUpload').files[0];
+            if (!file) return;
+            const formData = new FormData();
+            formData.append('image', file);
+            const res = await fetch('/api/upload', { method: 'POST', body: formData });
+            const data = await res.json();
+            if (data.url) {
+                document.getElementById('featuredImage').value = data.url;
+                showToast('Image uploaded');
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('postForm').reset();
+            document.getElementById('editSlug').value = '';
+            document.getElementById('formTitle').textContent = 'New Post';
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        loadPosts();
+    </script>
+
+</body>
+</html>

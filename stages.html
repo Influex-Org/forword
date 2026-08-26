@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stages | ForWord — Press, Pages & Stages</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold-dark: #99662D;
+            --gold-mid: #CB8E44;
+            --gold-light: #DEAD74;
+            --gold-gradient: linear-gradient(135deg, #99662D 0%, #CB8E44 35%, #DEAD74 65%, #CB8E44 100%);
+            --gold-gradient-h: linear-gradient(90deg, #99662D 0%, #CB8E44 30%, #DEAD74 50%, #CB8E44 70%, #99662D 100%);
+            --gold-text: linear-gradient(135deg, #DEAD74 0%, #CB8E44 50%, #DEAD74 100%);
+            --bone: #E8E0D4;
+            --charcoal: #1A1A1A;
+            --dark-bg: #0D0D0D;
+            --dark-section: #111111;
+            --dark-card: #1A1A1A;
+            --font-body: 'Montserrat', sans-serif;
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-size: 16px; }
+        body { font-family: var(--font-body); background: var(--dark-bg); color: var(--bone); line-height: 1.7; overflow-x: hidden; }
+        img { max-width: 100%; height: auto; display: block; }
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+
+        .gold-text {
+            background: var(--gold-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gold-line { width: 60px; height: 2px; background: var(--gold-gradient-h); margin: 1.5rem auto; }
+
+        /* ============================================
+           Navigation (shared with homepage)
+           ============================================ */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            padding: 1.25rem 3rem; display: flex; align-items: center; justify-content: space-between;
+            background: rgba(13, 13, 13, 0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(203, 142, 68, 0.1);
+        }
+        .nav-logo { height: 40px; width: auto; }
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+        .nav-links a {
+            font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--bone); position: relative; padding-bottom: 4px;
+        }
+        .nav-links a::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px;
+            background: var(--gold-gradient-h); transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a:hover { color: var(--gold-light); }
+        .nav-links a.active { color: var(--gold-mid); }
+        .nav-links a.active::after { width: 100%; }
+
+        /* ============================================
+           Hero
+           ============================================ */
+        .stages-hero {
+            padding: 10rem 2rem 5rem; text-align: center; position: relative;
+            background: var(--dark-bg); overflow: hidden;
+        }
+        .stages-hero::before {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(203, 142, 68, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .stages-hero-label {
+            font-size: 0.7rem; letter-spacing: 0.35em; text-transform: uppercase;
+            color: var(--gold-mid); margin-bottom: 1.5rem;
+        }
+        .stages-hero h1 {
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem); font-weight: 300; line-height: 1.3;
+            color: var(--bone); margin-bottom: 1rem; max-width: 800px; margin-left: auto; margin-right: auto;
+        }
+        .stages-hero h1 span { font-weight: 500; }
+        .stages-hero-sub {
+            font-size: 1.1rem; font-weight: 300; color: rgba(232, 224, 212, 0.6);
+            max-width: 600px; margin: 0 auto 2.5rem; line-height: 1.8;
+        }
+
+        /* ============================================
+           Section Shared Styles
+           ============================================ */
+        .section-header {
+            text-align: center; margin-bottom: 3rem;
+        }
+        .section-label {
+            font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase;
+            color: var(--gold-mid); font-weight: 500;
+        }
+
+        /* ============================================
+           Speaking Topics
+           ============================================ */
+        .topics {
+            padding: 5rem 2rem; background: var(--dark-section);
+        }
+        .topics-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 2rem; max-width: 1000px; margin: 0 auto;
+        }
+        .topic-card {
+            background: var(--dark-card); border: 1px solid rgba(203, 142, 68, 0.08);
+            padding: 2.5rem; position: relative; overflow: hidden; transition: all 0.4s ease;
+        }
+        .topic-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--gold-gradient-h); transform: scaleX(0); transition: transform 0.4s ease;
+        }
+        .topic-card:hover { border-color: rgba(203, 142, 68, 0.2); transform: translateY(-3px); }
+        .topic-card:hover::before { transform: scaleX(1); }
+        .topic-card h3 {
+            font-size: 1.15rem; font-weight: 500; color: var(--bone); margin-bottom: 1rem;
+        }
+        .topic-card p {
+            font-size: 0.88rem; font-weight: 300; color: rgba(232, 224, 212, 0.6); line-height: 1.8;
+        }
+
+        /* ============================================
+           Featured Stages
+           ============================================ */
+        .stages-list {
+            padding: 5rem 2rem; background: var(--dark-bg);
+        }
+        .stages-logos {
+            display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+            gap: 2rem 3.5rem; max-width: 900px; margin: 0 auto;
+        }
+        .stage-badge {
+            padding: 0.7rem 1.5rem; border: 1px solid rgba(203, 142, 68, 0.12);
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+            color: rgba(232, 224, 212, 0.5); transition: all 0.3s ease;
+        }
+        .stage-badge:hover {
+            border-color: var(--gold-mid); color: var(--gold-mid);
+        }
+
+        /* ============================================
+           Podcast Appearances
+           ============================================ */
+        .podcasts {
+            padding: 5rem 2rem; background: var(--dark-section);
+        }
+        .podcasts-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+        }
+        .podcast-card {
+            background: var(--dark-card); border: 1px solid rgba(203, 142, 68, 0.06);
+            padding: 0; transition: all 0.3s ease; display: flex; flex-direction: column;
+            overflow: hidden; text-decoration: none;
+        }
+        .podcast-card:hover {
+            border-color: rgba(203, 142, 68, 0.2); transform: translateY(-2px);
+        }
+        .podcast-card-img {
+            width: 100%; height: 200px; object-fit: cover; object-position: center top;
+            transition: transform 0.4s ease;
+        }
+        .podcast-card:hover .podcast-card-img {
+            transform: scale(1.05);
+        }
+        .podcast-card-body {
+            padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem;
+        }
+        .podcast-show {
+            font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--gold-mid); font-weight: 600;
+        }
+        .podcast-episode {
+            font-size: 1rem; font-weight: 500; color: var(--bone); line-height: 1.5;
+        }
+        .podcast-host {
+            font-size: 0.8rem; font-weight: 300; color: rgba(232, 224, 212, 0.4);
+        }
+
+        /* ============================================
+           Press
+           ============================================ */
+        .press {
+            padding: 5rem 2rem; background: var(--dark-bg);
+        }
+        .press-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem; max-width: 800px; margin: 0 auto;
+        }
+        .press-card {
+            background: var(--dark-card); border: 1px solid rgba(203, 142, 68, 0.06);
+            padding: 2rem; display: flex; flex-direction: column; gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .press-card:hover { border-color: rgba(203, 142, 68, 0.2); }
+        .press-pub {
+            font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+            color: var(--gold-mid); font-weight: 600;
+        }
+        .press-title {
+            font-size: 0.95rem; font-weight: 400; color: var(--bone); line-height: 1.6;
+        }
+
+        /* ============================================
+           CTA
+           ============================================ */
+        .stages-cta {
+            padding: 6rem 2rem; text-align: center; background: var(--dark-section);
+        }
+        .stages-cta-inner {
+            max-width: 600px; margin: 0 auto;
+        }
+        .stages-cta h2 {
+            font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 300;
+            font-style: italic; color: var(--bone); margin-bottom: 2rem; line-height: 1.7;
+        }
+        .cta-btn {
+            display: inline-block; padding: 1rem 3rem; background: var(--gold-gradient);
+            color: var(--dark-bg); font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.4s ease;
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(203, 142, 68, 0.3); }
+
+        /* ============================================
+           Footer
+           ============================================ */
+        footer { padding: 4rem 3rem 2rem; position: relative; overflow: hidden; }
+        .footer-bg { position: absolute; inset: 0; z-index: 0; }
+        .footer-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.15; }
+        .footer-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(13,13,13,0.8) 0%, rgba(13,13,13,0.5) 50%, rgba(13,13,13,0.8) 100%); }
+        .footer-inner { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; position: relative; z-index: 1; }
+        .footer-logo { height: 35px; width: auto; opacity: 0.7; }
+        .footer-social-icons { display: flex; gap: 1rem; align-items: center; }
+        .footer-social-icon { width: 40px; height: 40px; border: 1px solid rgba(203,142,68,0.25); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .footer-social-icon:hover { border-color: var(--gold-mid); background: rgba(203,142,68,0.1); transform: translateY(-2px); }
+        .footer-social-icon svg { width: 16px; height: 16px; fill: var(--gold-mid); }
+        .footer-social-icon:hover svg { fill: var(--gold-light); }
+        .footer-bottom { text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(203,142,68,0.08); position: relative; z-index: 1; }
+        .footer-bottom p { font-size: 0.65rem; letter-spacing: 0.15em; color: rgba(232,224,212,0.2); }
+
+        /* Fade-in */
+        .fade-in { opacity: 0; transform: translateY(25px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav { padding: 1rem 1.5rem; }
+            .nav-links { display: none; }
+            .topics-grid, .press-grid { grid-template-columns: 1fr; }
+            .podcasts-grid { grid-template-columns: 1fr; }
+            .stages-logos { gap: 1rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html"><img src="assets/logo-icon.png" alt="ForWord" class="nav-logo"></a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#about">Who Am I?</a></li>
+            <li><a href="words.html">Words</a></li>
+            <li><a href="index.html#service">Service</a></li>
+            <li><a href="index.html#impact">Impact</a></li>
+            <li><a href="stages.html" class="active">Stages</a></li>
+            <li><a href="index.html#connect">Connect</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="stages-hero">
+        <p class="stages-hero-label">Press, Pages &amp; Stages</p>
+        <h1>The World Is A Stage.<br><span class="gold-text">Every Word Moves It Forward.</span></h1>
+        <p class="stages-hero-sub">
+            From intimate masterminds to global stages, ForWord brings the intersection of
+            poetry and strategy to audiences ready to be moved.
+        </p>
+        <div class="gold-line"></div>
+    </section>
+
+    <!-- Speaking Topics -->
+    <section class="topics fade-in">
+        <div class="section-header">
+            <p class="section-label">Signature Talks</p>
+            <div class="gold-line"></div>
+        </div>
+        <div class="topics-grid">
+            <div class="topic-card">
+                <h3 class="gold-text">Building an Iconic Personal Brand</h3>
+                <p>The blueprint behind the world's most influential personal brands &mdash; from positioning to presence. The exact methodology used at Influex to design brands that command attention, trust, and premium value.</p>
+            </div>
+            <div class="topic-card">
+                <h3 class="gold-text">Creativity, Leadership &amp; the Courage to Lead Differently</h3>
+                <p>How the most impactful leaders use creativity as a strategic weapon. A talk that fuses spoken word, storytelling, and real-world entrepreneurial insight to redefine what bold leadership looks like.</p>
+            </div>
+            <div class="topic-card">
+                <h3 class="gold-text">From Words to Wealth</h3>
+                <p>Your personal brand is the most valuable asset you own. This talk reveals how to turn your fullest expression into influence, impact, and income &mdash; without performing. Just expressing.</p>
+            </div>
+            <div class="topic-card">
+                <h3 class="gold-text">Spoken Word Performance</h3>
+                <p>Captivating audiences through the power of spoken word &mdash; merging poetry, storytelling, and raw truth. ForWord turns the entrepreneurial journey into art that moves rooms to their feet.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Stages -->
+    <section class="stages-list fade-in">
+        <div class="section-header">
+            <p class="section-label">Featured &amp; Performed On</p>
+            <div class="gold-line"></div>
+        </div>
+        <div class="stages-logos">
+            <span class="stage-badge">TEDx</span>
+            <span class="stage-badge">Genius Network</span>
+            <span class="stage-badge">Necker Island</span>
+            <span class="stage-badge">Forbes</span>
+            <span class="stage-badge">Entrepreneur</span>
+            <span class="stage-badge">Inc 5000</span>
+            <span class="stage-badge">Maverick</span>
+            <span class="stage-badge">War Room</span>
+            <span class="stage-badge">EWAS</span>
+            <span class="stage-badge">Rankings</span>
+            <span class="stage-badge">Brand Builders Live</span>
+            <span class="stage-badge">Creative Leadership Forum</span>
+        </div>
+    </section>
+
+    <!-- Podcast Appearances -->
+    <section class="podcasts fade-in">
+        <div class="section-header">
+            <p class="section-label">Podcast Appearances</p>
+            <div class="gold-line"></div>
+        </div>
+        <div class="podcasts-grid">
+            <a href="https://geniusnetwork.com/podcast/how-to-create-a-personal-brand-website-with-dmitriy-kozlov-at-joe-polishs-genius-network/" target="_blank" rel="noopener" class="podcast-card">
+                <img src="assets/podcasts/joe-polish.jpg" alt="Joe Polish" class="podcast-card-img">
+                <div class="podcast-card-body">
+                    <p class="podcast-show">Genius Network</p>
+                    <p class="podcast-episode">How To Create A Personal Brand Website</p>
+                    <p class="podcast-host">with Joe Polish</p>
+                </div>
+            </a>
+            <a href="https://podcasts.apple.com/us/podcast/building-your-personal-brand-website-with-dmitriy-kozlov/id982006298?i=1000438257008" target="_blank" rel="noopener" class="podcast-card">
+                <img src="assets/podcasts/mike-dillard.jpeg" alt="Mike Dillard" class="podcast-card-img">
+                <div class="podcast-card-body">
+                    <p class="podcast-show">The Mike Dillard Show</p>
+                    <p class="podcast-episode">Building Your Personal Brand Website</p>
+                    <p class="podcast-host">with Mike Dillard</p>
+                </div>
+            </a>
+            <a href="https://www.youtube.com/watch?v=bGgbsr6szF8" target="_blank" rel="noopener" class="podcast-card">
+                <img src="assets/podcasts/dan-lok.jpg" alt="Dan Lok" class="podcast-card-img">
+                <div class="podcast-card-body">
+                    <p class="podcast-show">Dan Lok</p>
+                    <p class="podcast-episode">The Importance Of Building Your Personal Brand</p>
+                    <p class="podcast-host">with Dan Lok</p>
+                </div>
+            </a>
+            <a href="https://rankings.io/pim/194-dmitriy-kozlov" target="_blank" rel="noopener" class="podcast-card">
+                <img src="assets/podcasts/chris-dreyer.jpg" alt="Chris Dreyer" class="podcast-card-img">
+                <div class="podcast-card-body">
+                    <p class="podcast-show">Rankings</p>
+                    <p class="podcast-episode">Never Fit In: Branding with Impact</p>
+                    <p class="podcast-host">with Chris Dreyer</p>
+                </div>
+            </a>
+            <a href="https://members.bestbusinesscoach.ca/building-a-world-class-brand-with-dmitriy-kozlov/" target="_blank" rel="noopener" class="podcast-card">
+                <img src="assets/podcasts/daryl-urbanski.png" alt="Daryl Urbanski" class="podcast-card-img">
+                <div class="podcast-card-body">
+                    <p class="podcast-show">Best Business Coach</p>
+                    <p class="podcast-episode">Building A World Class Brand</p>
+                    <p class="podcast-host">with Daryl Urbanski</p>
+                </div>
+            </a>
+            <a href="https://www.arman.xyz/dmitriy-kozlov-the-master-of-expression-integrity-influence-art/" target="_blank" rel="noopener" class="podcast-card">
+                <img src="assets/podcasts/arman-assadi.jpg" alt="Arman Assadi" class="podcast-card-img">
+                <div class="podcast-card-body">
+                    <p class="podcast-show">Arman Assadi</p>
+                    <p class="podcast-episode">The Master of Expression: Integrity, Influence &amp; Art</p>
+                    <p class="podcast-host">with Arman Assadi</p>
+                </div>
+            </a>
+            <a href="https://www.influex.com/the-6-figure-earners-guide-to-branding-with-dmitriy-kozlov/" target="_blank" rel="noopener" class="podcast-card">
+                <img src="assets/podcasts/jules-schroeder.jpg" alt="Jules Schroeder" class="podcast-card-img">
+                <div class="podcast-card-body">
+                    <p class="podcast-show">Jules Schroeder</p>
+                    <p class="podcast-episode">The 6-Figure Earner&rsquo;s Guide to Branding</p>
+                    <p class="podcast-host">with Jules Schroeder</p>
+                </div>
+            </a>
+            <a href="https://www.rajjana.com/podcast/episode-54-dmitry-kozlov-dancing-with-fear-in-the-face-of-change/" target="_blank" rel="noopener" class="podcast-card">
+                <img src="assets/podcasts/raj-jana.jpg" alt="Raj Jana" class="podcast-card-img">
+                <div class="podcast-card-body">
+                    <p class="podcast-show">Raj Jana</p>
+                    <p class="podcast-episode">Dancing with Fear in the Face of Change</p>
+                    <p class="podcast-host">with Raj Jana</p>
+                </div>
+            </a>
+            <a href="https://entrepreneursawakening.com/experiencing-ayahuasca-taught-this-young-ceo-about-his-true-purpose/" target="_blank" rel="noopener" class="podcast-card">
+                <img src="assets/podcasts/entrepreneurs-awakening.jpg" alt="Entrepreneurs Awakening" class="podcast-card-img">
+                <div class="podcast-card-body">
+                    <p class="podcast-show">Entrepreneurs Awakening</p>
+                    <p class="podcast-episode">Aligning with True Purpose as a Leader</p>
+                    <p class="podcast-host">with Entrepreneurs Awakening</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Press -->
+    <section class="press fade-in">
+        <div class="section-header">
+            <p class="section-label">In The Press</p>
+            <div class="gold-line"></div>
+        </div>
+        <div class="press-grid">
+            <div class="press-card">
+                <p class="press-pub">Entrepreneur</p>
+                <p class="press-title">5 Brand Mistakes Entrepreneurs Make (And How to Fix Them)</p>
+            </div>
+            <div class="press-card">
+                <p class="press-pub">Inc Magazine</p>
+                <p class="press-title">How Influex Is Redefining Personal Branding for Industry Leaders</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="stages-cta fade-in">
+        <div class="stages-cta-inner">
+            <p class="section-label">Book ForWord</p>
+            <div class="gold-line"></div>
+            <h2>Ready to bring the intersection of poetry and strategy to your stage?</h2>
+            <a href="index.html#connect" class="cta-btn">Let&rsquo;s Connect</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-bg">
+            <img src="assets/hero-bg.jpg" alt="">
+        </div>
+        <div class="footer-inner">
+            <img src="assets/logo-full.png" alt="ForWord" class="footer-logo">
+            <div class="footer-social-icons">
+                <a href="http://facebook.com/dimacauselove" target="_blank" rel="noopener" class="footer-social-icon" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                <a href="http://instagram.com/forwordceo" target="_blank" rel="noopener" class="footer-social-icon" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+                <a href="https://www.linkedin.com/in/dkozlov" target="_blank" rel="noopener" class="footer-social-icon" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                <a href="https://www.youtube.com/dmitriymkozlov" target="_blank" rel="noopener" class="footer-social-icon" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                <a href="http://x.com/dkozlov" target="_blank" rel="noopener" class="footer-social-icon" title="X"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 ForWord &middot; Dmitriy Kozlov &middot; All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
