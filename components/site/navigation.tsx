@@ -33,6 +33,7 @@ export function Navigation() {
             height={40}
             priority
             className="h-10 w-auto"
+            style={{ width: "auto", height: "auto" }}
           />
         </Link>
 

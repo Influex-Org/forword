@@ -18,6 +18,7 @@ export function Footer() {
           width={140}
           height={35}
           className="h-[35px] w-auto opacity-70"
+          style={{ width: "auto", height: "auto" }}
         />
 
         <ul className="flex flex-wrap items-center justify-center gap-4">

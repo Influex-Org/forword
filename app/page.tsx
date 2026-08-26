@@ -34,6 +34,7 @@ export default function HomePage() {
                 height={72}
                 priority
                 className="h-16 w-auto opacity-90"
+                style={{ width: "auto", height: "auto" }}
               />
             </Reveal>
 
@@ -194,9 +195,8 @@ export default function HomePage() {
         >
           <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-14 lg:grid-cols-2">
             <Reveal className="relative aspect-[4/5] overflow-hidden rounded-md">
-              {/* TODO: add profile photo — using hero-bg.jpg as placeholder */}
               <Image
-                src="/assets/hero-bg.jpg"
+                src="/assets/profile.jpg"
                 alt="Dmitriy Kozlov"
                 fill
                 sizes="(min-width: 1024px) 50vw, 100vw"
@@ -216,8 +216,12 @@ export default function HomePage() {
               </Reveal>
               <Reveal delay={0.15}>
                 <p className="gold-text text-[0.95rem] font-medium uppercase tracking-[0.15em]">
-                  Chief Expression Officer. Artist. Entrepreneur. Iconic
-                  Wanderer.
+                  Chief{" "}
+                  <WordRotator
+                    words={["Expression", "Exponential", "Executive"]}
+                    className="inline-block min-w-[12ch] text-left align-baseline"
+                  />{" "}
+                  Officer at Influex and Exponential Venture EcoVerse.
                 </p>
               </Reveal>
               <Reveal delay={0.2}>
@@ -376,6 +380,7 @@ export default function HomePage() {
                 width={200}
                 height={60}
                 className="h-12 w-auto"
+                style={{ width: "auto", height: "auto" }}
               />
             </Reveal>
             <Reveal delay={0.1}>
@@ -428,6 +433,7 @@ export default function HomePage() {
                 width={280}
                 height={80}
                 className="h-16 w-auto"
+                style={{ width: "auto", height: "auto" }}
               />
             </Reveal>
             <Reveal delay={0.1}>
