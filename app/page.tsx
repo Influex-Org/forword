@@ -5,9 +5,10 @@ import { Footer } from "@/components/site/footer";
 import { Reveal } from "@/components/site/reveal";
 import { WordRotator } from "@/components/site/word-rotator";
 import { HandUnderline } from "@/components/site/hand-underline";
-import { Typewriter } from "@/components/site/typewriter";
 import { ParallaxBg } from "@/components/site/parallax-bg";
 import { ScrollIndicator } from "@/components/site/scroll-indicator";
+import { ScrollLetter } from "@/components/site/scroll-letter";
+import { LinesFlow } from "@/components/site/lines-flow";
 import { getRecentPosts, normalizeImagePath } from "@/lib/posts";
 
 export default function HomePage() {
@@ -91,100 +92,95 @@ export default function HomePage() {
         </section>
 
         {/* 2. CINEMATIC — DEAR SOUL */}
-        <section className="relative overflow-hidden bg-[var(--dark-bg)] px-6 py-32">
-          {/* TODO: video background moved to _legacy for size; add CDN-hosted video later */}
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(203,142,68,0.08)_0%,transparent_60%)]" />
+        <section className="relative bg-[var(--dark-bg)]">
+          <ScrollLetter />
 
-          <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-10 text-center">
-            <Reveal>
-              <span className="eyebrow">A Letter To You</span>
-            </Reveal>
+          <div className="mx-auto flex max-w-6xl flex-col items-center gap-20 px-6 pb-32 pt-24 text-center">
+            <LinesFlow
+              className="max-w-5xl text-[clamp(1.5rem,2.6vw,2.1rem)] font-light leading-[1.55] text-[var(--bone)]/85"
+              wordDelay={0.09}
+              lines={[
+                {
+                  words: [
+                    { text: "And" },
+                    { text: "I’m" },
+                    { text: "here" },
+                    { text: "to" },
+                    { text: "inspire" },
+                    { text: "and" },
+                    { text: "empower" },
+                    { text: "you" },
+                    { text: "to" },
+                    { text: "live", bold: true },
+                    { text: "your", bold: true },
+                    { text: "fullest", bold: true },
+                    { text: "expression,", bold: true },
+                    { text: "to" },
+                    { text: "give", bold: true },
+                    { text: "your", bold: true },
+                    { text: "greatest", bold: true },
+                    { text: "gifts,", bold: true },
+                    { text: "and" },
+                    { text: "to" },
+                    { text: "love", bold: true },
+                    { text: "out", bold: true },
+                    { text: "loud", bold: true },
+                    { text: "on" },
+                    { text: "the" },
+                    { text: "stage" },
+                    { text: "of" },
+                    { text: "your" },
+                    { text: "life…" },
+                    { text: "as" },
+                    { text: "I" },
+                    { text: "have" },
+                    { text: "for" },
+                    { text: "hundreds", bold: true },
+                    { text: "of", bold: true },
+                    { text: "industry", bold: true },
+                    { text: "influencers", bold: true },
+                    { text: "through" },
+                    { text: "crafting" },
+                    { text: "their" },
+                    { text: "iconic", bold: true },
+                    { text: "brands", bold: true },
+                    { text: "and" },
+                    { text: "countless" },
+                    { text: "hearts" },
+                    { text: "through" },
+                    { text: "my" },
+                    { text: "poetic" },
+                    { text: "art." },
+                  ],
+                },
+              ]}
+            />
 
-            <Reveal delay={0.05}>
-              <p className="text-[1.4rem] font-light italic text-[var(--bone)]">
-                Dear Soul,
-              </p>
-            </Reveal>
-            <Reveal delay={0.15}>
-              <p className="text-[1.2rem] font-light text-[var(--bone)]/80">
-                Thank you for being here.
-              </p>
-            </Reveal>
-            <Reveal delay={0.25}>
-              <p className="text-[1.2rem] font-light text-[var(--bone)]/80">
-                But WHY? Why are you here?
-              </p>
-            </Reveal>
-            <Reveal delay={0.35}>
-              <p className="text-[1.6rem] font-medium uppercase tracking-[0.15em] text-[var(--bone)]">
-                YOU ARE HERE.
-              </p>
-            </Reveal>
-            <Reveal delay={0.45}>
-              <p className="text-[1.6rem] font-medium uppercase tracking-[0.15em] text-[var(--bone)]">
-                YOU ARE HERE… TO BE <span className="gold-text">YOU</span>.
-              </p>
-            </Reveal>
-
-            <div className="my-4 flex flex-col items-center gap-3">
-              <Reveal delay={0.2}>
-                <p className="text-[clamp(1.4rem,3.5vw,2.4rem)] font-semibold uppercase tracking-[0.1em] text-[var(--bone)]">
-                  TO FULLY.
-                </p>
-              </Reveal>
-              <Reveal delay={0.8}>
-                <p className="text-[clamp(1.4rem,3.5vw,2.4rem)] font-semibold uppercase tracking-[0.1em] text-[var(--bone)]">
-                  EXPRESS.
-                </p>
-              </Reveal>
-              <Reveal delay={1.4}>
-                <p className="gold-text text-[clamp(2rem,5vw,3.4rem)] font-bold uppercase tracking-[0.1em]">
-                  YOUR SOUL.
-                </p>
-              </Reveal>
-            </div>
-
-            <div className="flex flex-col items-center gap-1">
-              <Reveal delay={0.05}>
-                <span className="text-[1rem] italic text-[var(--bone)]/80">
-                  You Are Here To Beautifully
-                </span>
-              </Reveal>
-              <Reveal delay={0.45}>
-                <span className="text-[1.15rem] font-semibold italic text-[var(--bone)]">
-                  Express Your Soul.
-                </span>
-              </Reveal>
-            </div>
-
-            <Reveal delay={0.1}>
-              <p className="max-w-2xl text-[1rem] font-light leading-[1.9] text-[var(--bone)]/75">
-                And I&apos;m here to inspire and empower you to{" "}
-                <strong className="text-[var(--bone)]">
-                  live your fullest expression
-                </strong>
-                , to{" "}
-                <strong className="text-[var(--bone)]">
-                  give your greatest gifts
-                </strong>
-                , and to{" "}
-                <strong className="text-[var(--bone)]">love out loud</strong> on
-                the stage of your life… as I have for{" "}
-                <strong className="text-[var(--bone)]">
-                  hundreds of industry influencers
-                </strong>{" "}
-                through crafting their{" "}
-                <strong className="text-[var(--bone)]">iconic brands</strong>{" "}
-                and countless hearts through my poetic art.
-              </p>
-            </Reveal>
-
-            <Reveal delay={0.2}>
-              <Typewriter
-                text="So we can build a Be-YOU-to-Fully Expressed World, Together."
-                className="text-[1.15rem] font-light italic text-[var(--bone)]"
-              />
-            </Reveal>
+            <LinesFlow
+              wordDelay={0.16}
+              className="flex flex-col items-center gap-3 italic text-[var(--bone)]"
+              lines={[
+                {
+                  className:
+                    "text-[clamp(2.2rem,4.5vw,3.4rem)] font-light italic",
+                  words: "So we can build a"
+                    .split(" ")
+                    .map((w) => ({ text: w, italic: true })),
+                },
+                {
+                  className:
+                    "text-[clamp(3rem,6vw,4.6rem)] font-normal italic leading-[1.05]",
+                  words: "Be-YOU-to-Fully Expressed World,"
+                    .split(" ")
+                    .map((w) => ({ text: w, italic: true })),
+                },
+                {
+                  className:
+                    "text-[clamp(3.4rem,7vw,5.4rem)] font-normal italic",
+                  words: [{ text: "Together.", italic: true, gold: true }],
+                },
+              ]}
+            />
           </div>
         </section>
 
