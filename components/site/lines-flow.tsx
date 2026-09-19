@@ -25,6 +25,14 @@ type Props = {
   className?: string;
   /** Viewport threshold before reveal starts (framer-motion `amount`). */
   amount?: number;
+  /**
+   * Ceiling on the TOTAL stagger across the block, in seconds. `wordDelay`
+   * accumulates linearly, so a long paragraph would otherwise take seconds to
+   * finish (49 words x 0.09s = 4.4s before the last word even starts). When the
+   * block is long enough to exceed this, the per-word delay is compressed to
+   * fit. Short blocks keep their `wordDelay` rhythm untouched.
+   */
+  maxStagger?: number;
 };
 
 /**
@@ -38,7 +46,12 @@ export function LinesFlow({
   boldClass = "font-semibold text-[var(--bone)]",
   className,
   amount = 0.2,
+  maxStagger = 1.3,
 }: Props) {
+  const total = lines.reduce((n, line) => n + line.words.length, 0);
+  const steps = Math.max(total - 1, 1);
+  // Compress only when the block would otherwise overrun the ceiling.
+  const delayStep = Math.min(wordDelay, maxStagger / steps);
   let global = 0;
   return (
     <motion.div
@@ -73,7 +86,7 @@ export function LinesFlow({
                     y: 0,
                     filter: "blur(0px)",
                     transition: {
-                      delay: idx * wordDelay,
+                      delay: idx * delayStep,
                       duration: 0.5,
                       ease: [0.22, 1, 0.36, 1],
                     },

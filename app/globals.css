@@ -73,6 +73,28 @@
   --blue-green-gradient: linear-gradient(135deg, #102452 0%, #008080 100%);
 
   --bone: #E8E0D4;
+
+  /* Influex design-system accents. Kept separate from the --gold-* ramp
+     above: that stays ForWord's base, these are for accent moments only. */
+  --champagne: #ECC777;
+  --champagne-soft: #FFF2C6;
+  --rose-copper: #C98A73;
+  --mauve-soft: #BDA6D8;
+  /* Influex's signature warm-to-cool metallic sweep. */
+  --grad-authority: linear-gradient(
+    135deg,
+    #f2e8d8 0%,
+    #d9b97d 38%,
+    #c98a73 68%,
+    #bda6d8 100%
+  );
+  /* Hairline that blooms out of nothing and tails into mauve. */
+  --grad-ceremonial: linear-gradient(
+    90deg,
+    rgba(217, 185, 125, 0) 0%,
+    rgba(217, 185, 125, 1) 50%,
+    rgba(189, 166, 216, 0.8) 100%
+  );
   --roman: #D5CFC7;
   --charcoal: #1A1A1A;
   --dark-bg: #0D0D0D;
@@ -195,6 +217,45 @@
     background: var(--gold-gradient-h);
     opacity: 0.8;
   }
+  /* Influex's ceremonial rule — a hairline that fades up out of nothing,
+     peaks, and tails off into mauve. Used as a seam between sections, not as
+     the short .gold-line accent. */
+  .rule-ceremonial {
+    display: block;
+    height: 1px;
+    width: 100%;
+    border: 0;
+    background: var(--grad-ceremonial);
+    opacity: 0.75;
+  }
+
+  /* Influex's animated authority gradient. Deliberately reserved for a single
+     statement line per page — it stops being special if it is everywhere. */
+  .authority-text {
+    background: var(--grad-authority);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: authority-sweep 12s linear infinite;
+  }
+
+  @keyframes authority-sweep {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 200% 50%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .authority-text {
+      animation: none;
+    }
+  }
+
   /* Section eyebrow label (uppercase small caps in gold) */
   .eyebrow {
     display: inline-block;
@@ -204,4 +265,406 @@
     text-transform: uppercase;
     color: var(--gold-mid);
   }
+}
+
+/* ---------------------------------------------------------------------------
+   Client faces carousel — ported from the Influex homepage (ix-face-*).
+   Full-bleed auto-scrolling rail of client portraits. The card nearest the
+   horizontal centre wins a "spotlight": full colour, scaled up, gold ring and
+   a champagne bloom behind the head. Everything else sits back in greyscale.
+   The active class is applied by ClientFaces; the CSS only describes states.
+--------------------------------------------------------------------------- */
+.faces {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw); /* break out to true viewport edges */
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 10%,
+    #000 90%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 10%,
+    #000 90%,
+    transparent 100%
+  );
+}
+
+.faces-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 1.6vw, 32px);
+  width: max-content;
+  padding: 60px 0 48px; /* vertical room for the scaled-up centre card */
+  animation: faces-scroll 66s linear infinite;
+  will-change: transform;
+}
+
+.faces:hover .faces-track {
+  animation-play-state: paused;
+}
+
+@keyframes faces-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.faces-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(220px, 18vw, 280px);
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.84);
+  transform-origin: center;
+  transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+  cursor: pointer;
+  outline: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+}
+
+.faces-card.is-active {
+  transform: scale(1.14);
+  z-index: 10;
+}
+
+.faces-card:focus-visible .faces-stage {
+  box-shadow:
+    inset 0 0 0 1px rgba(203, 142, 68, 0.5),
+    0 0 0 3px rgba(203, 142, 68, 0.35);
+}
+
+/* Dark frame holding the portrait plus the client's own logo. */
+.faces-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: radial-gradient(
+    110% 70% at 50% 0%,
+    #1c1c1c 0%,
+    #0a0a0a 55%,
+    #000 100%
+  );
+  box-shadow:
+    inset 0 0 0 1px rgba(203, 142, 68, 0.08),
+    0 20px 40px -24px rgba(0, 0, 0, 0.85);
+  filter: grayscale(1) brightness(0.58) contrast(0.95);
+  transition:
+    filter 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faces-card.is-active .faces-stage {
+  filter: grayscale(0) brightness(1.06) contrast(1.05);
+  box-shadow:
+    inset 0 0 0 1px rgba(203, 142, 68, 0.5),
+    0 70px 110px -24px rgba(0, 0, 0, 0.85),
+    0 0 90px rgba(203, 142, 68, 0.22);
+}
+
+/* Champagne bloom behind the head — lit only on the active card. */
+.faces-stage::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  width: 80%;
+  height: 60%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(203, 142, 68, 0) 0%,
+    transparent 70%
+  );
+  filter: blur(24px);
+  pointer-events: none;
+  z-index: 0;
+  transition: background 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faces-card.is-active .faces-stage::before {
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgba(203, 142, 68, 0.32) 0%,
+    transparent 70%
+  );
+}
+
+/* Darkens the floor so the logo stays readable over the portrait. */
+.faces-stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 35%,
+    rgba(0, 0, 0, 0.55) 74%,
+    rgba(0, 0, 0, 0.92) 100%
+  );
+  pointer-events: none;
+  z-index: 2;
+}
+
+.faces-photo {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  height: 100%;
+  width: auto;
+  max-width: none;
+  object-fit: contain;
+  object-position: bottom center;
+  display: block;
+  z-index: 1;
+}
+
+.faces-logo {
+  position: absolute;
+  left: 50%;
+  bottom: 8%;
+  transform: translateX(-50%);
+  max-width: 72%;
+  max-height: 18%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  z-index: 3;
+  opacity: 0.72;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.6));
+  transition: opacity 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faces-card.is-active .faces-logo {
+  opacity: 1;
+}
+
+.faces-name {
+  text-align: center;
+  font-weight: 700;
+  font-size: clamp(10px, 0.8vw, 12px);
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: rgba(232, 224, 212, 0.55);
+  margin-top: 20px;
+  padding: 0 8px 8px;
+  transition: color 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.faces-card.is-active .faces-name {
+  color: var(--gold-light);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .faces-track {
+    animation: none;
+  }
+  .faces-card {
+    transform: none;
+  }
+  .faces-stage {
+    filter: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .faces-track {
+    gap: 16px;
+    padding: 40px 0 32px;
+    animation-duration: 48s;
+  }
+  .faces-card {
+    width: clamp(170px, 48vw, 220px);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Horizontal marquees — ported from the Influex design system (ix-trust-* and
+   ix-chosen-*). Each row is its own overflow-hidden band whose track holds its
+   items duplicated once and animates translateX 0 -> -50%. Landing at -50%
+   lines up exactly with the second copy, so the loop is seamless with no JS.
+   Base class = logo rail; .marquee--cards = website screenshot rail.
+--------------------------------------------------------------------------- */
+.marquee {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  /* Feathers both ends so items enter and leave instead of popping. */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+.marquee-row {
+  overflow: hidden;
+  width: 100%;
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(48px, 5vw, 96px);
+  width: max-content;
+  padding: 8px 0;
+  will-change: transform;
+}
+
+.marquee-row--left .marquee-track {
+  animation: marquee-left 60s linear infinite;
+}
+
+.marquee-row--right .marquee-track {
+  animation: marquee-right 72s linear infinite;
+}
+
+/* Let a visitor stop the rail to actually read a mark. */
+.marquee-row:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.marquee-logo {
+  flex: 0 0 auto;
+  height: 40px;
+  width: auto;
+  max-width: 180px;
+  /* Flattens every mark to one ivory silhouette so the rail reads as a single
+     roster rather than a mismatched clip-art grid. */
+  filter: brightness(0) invert(1) opacity(0.7);
+  transition:
+    filter 240ms ease,
+    transform 240ms ease;
+}
+
+.marquee-logo:hover {
+  filter: brightness(0) invert(1) opacity(1);
+  transform: translateY(-2px);
+}
+
+/* Card variant — website screenshots rather than logo silhouettes. Reuses the
+   same track and keyframes; only the rhythm and item styling change. */
+.marquee--cards {
+  gap: clamp(16px, 2vh, 28px);
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+}
+
+.marquee--cards .marquee-track {
+  gap: clamp(16px, 1.6vw, 28px);
+  padding: 6px 0;
+}
+
+/* Slower than the logo rail: the cards are far larger, so matching its speed
+   would read as frantic. */
+.marquee--cards .marquee-row--left .marquee-track {
+  animation-duration: 90s;
+}
+
+.marquee--cards .marquee-row--right .marquee-track {
+  animation-duration: 100s;
+}
+
+.marquee-card {
+  flex: 0 0 auto;
+  height: clamp(150px, 22vh, 240px);
+  width: auto;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow:
+    0 0 0 1px rgba(203, 142, 68, 0.18),
+    0 18px 40px -18px rgba(0, 0, 0, 0.55);
+  transition: transform 240ms ease;
+}
+
+.marquee-card:hover {
+  transform: translateY(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .marquee-logo {
+    height: 28px;
+    max-width: 140px;
+  }
+  .marquee-track {
+    gap: 40px;
+  }
+  .marquee-card {
+    height: 120px;
+  }
+}
+
+/* Influex's champagne bloom — a soft radial glow used to light a stage-like
+   section from behind the type. */
+.bloom {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(236, 199, 119, 0.22) 0%,
+    rgba(236, 199, 119, 0) 60%
+  );
+  filter: blur(40px);
+  pointer-events: none;
 }
