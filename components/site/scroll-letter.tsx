@@ -155,88 +155,74 @@ const LINES: LineDef[] = [
   },
 ];
 
-// Scroll choreography, all in viewport-height units.
+// Scroll choreography.
 //
-// The content column is absolutely positioned and translated upward as the
-// user scrolls. A word's reveal is derived from where it actually SITS in that
-// column, not from its position in the word order — line heights here range
-// from 2rem to 13vw, so index and vertical offset drift far apart. Pacing by
-// index made words fade in at the very top of the viewport (some finished
-// revealing after they had already scrolled off), which is unreadable.
-// The letter OPENS AT THE TOP: when the section pins, the column's first line
-// already sits near the top of the viewport. Because a word is lit once it has
-// risen past SETTLE_VH, every line with an offset under (SETTLE_VH - START_VH)
-// is already legible on arrival — i.e. the opening stanzas fill the upper two
-// thirds, and the rest fade in low as they rise. Starting the column below the
-// fold instead left a stretch of pinned, empty screen that read as "the site
-// has ended".
-const START_VH = 15; // content top at scroll progress 0
-const ENTER_VH = 95; // a word starts fading in as it rises past this height
-const SETTLE_VH = 75; // ...and is fully legible here, well below centre, then
-//                       stays readable for the whole rise through the middle.
-// The final line can rest no lower than (contentVh - lastWordOffset + SETTLE_VH),
-// otherwise the closing words never finish revealing before the hold begins.
-// SETTLE_VH is deliberately low so this ceiling is high enough to centre the
-// closing stanza instead of stranding it against the top edge.
-const END_REST_VH = 72; // where the final line comes to rest once travel ends
-const STAGGER_VH = 3; // per-word cascade within a single line
-// Translation finishes here, then the closing stanza is HELD on screen for the
-// remaining scroll so the section never ends on an empty frame. The sticky
-// wrapper unpins naturally afterwards and the next section scrolls over it.
-const HOLD_END_P = 0.88;
-
-/** Travel distance so the last line settles at END_REST_VH when scrolling ends. */
-const travelFor = (contentVh: number) => START_VH + contentVh - END_REST_VH;
+// Words reveal ONE AT A TIME, in order — that sequential unspooling is the
+// whole point of the section, so pacing is driven by a "frontier": the index
+// of the word currently lighting up, advancing steadily with scroll.
+//
+// The column's position is then derived from the frontier rather than moving
+// independently. It sits still at START_VH while the letter fills downward
+// from the top, and only begins travelling once the frontier reaches the
+// reading line — from then on it scrolls exactly enough to keep the newest
+// word at SETTLE_VH while older lines rise away.
+//
+//   contentY = min(START_VH, SETTLE_VH - offsetOf(frontier))
+//
+// Deriving both from one value is what stops them drifting apart. Earlier
+// versions paced reveals by index while moving the column on its own clock
+// (words lit at the very top edge, some after they had scrolled off), then
+// paced purely by position (readable, but every line above the reading line
+// was already lit on arrival — the letter arrived in one block).
+const START_VH = 16; // where the column sits while the letter fills from the top
+const SETTLE_VH = 74; // the reading line: where each word lands as it lights up
+// Words of overlap in the fade. ~1 keeps it strictly one-at-a-time; a little
+// more lets each word begin before the one before it has finished.
+const REVEAL_WINDOW = 1.35;
+// Reveals finish here; the closing stanza is then HELD for the remaining
+// scroll so the section never ends on an empty frame.
+const HOLD_END_P = 0.86;
 
 /** Used until the real layout is measured; avoids a flash of mistimed words. */
 const FALLBACK_CONTENT_VH = 170;
 
-type Metrics = { offsetsVh: number[]; travelVh: number };
+type Metrics = { offsetsVh: number[] };
 
 /**
- * Maps a word's vertical offset within the column to the scroll range over
- * which it fades in. Because every word uses the same ENTER/SETTLE heights,
- * they all become readable at the same point on screen.
+ * The column's offset at a fractional word index, so the frontier can sit
+ * between two words instead of jumping a whole line at a time.
  */
-function revealRange(offsetVh: number, travelVh: number, stagger: number) {
-  const delay = stagger * STAGGER_VH;
-  // Scaled by HOLD_END_P because all travel is compressed into [0, HOLD_END_P].
-  return {
-    start: ((START_VH + offsetVh + delay - ENTER_VH) / travelVh) * HOLD_END_P,
-    end: ((START_VH + offsetVh + delay - SETTLE_VH) / travelVh) * HOLD_END_P,
-  };
+function offsetAt(offsets: number[], index: number, total: number): number {
+  if (!offsets.length) {
+    // Pre-measurement fallback: spread the words evenly down the column.
+    return (index / Math.max(total - 1, 1)) * FALLBACK_CONTENT_VH;
+  }
+  const clamped = Math.max(0, Math.min(index, offsets.length - 1));
+  const lo = Math.floor(clamped);
+  const hi = Math.min(lo + 1, offsets.length - 1);
+  const frac = clamped - lo;
+  return (offsets[lo] ?? 0) * (1 - frac) + (offsets[hi] ?? 0) * frac;
 }
 
 function Word({
   children,
-  progress,
-  start,
-  end,
+  frontier,
+  index,
   emphasis,
   className,
-  index,
 }: {
   children: ReactNode;
-  progress: MotionValue<number>;
-  start: number;
-  end: number;
+  /** Index of the word currently lighting up; shared by every word. */
+  frontier: MotionValue<number>;
+  index: number;
   emphasis?: boolean;
   className?: string;
-  index: number;
 }) {
-  // The reveal range is only known after layout is measured, and framer-motion
-  // captures a useTransform input range on first render — passing an updated
-  // [start, end] array has no effect. So the range is read through a ref inside
-  // a function transformer, and every downstream transform uses a fixed [0, 1].
-  const rangeRef = useRef({ start, end });
-  useEffect(() => {
-    rangeRef.current = { start, end };
-  }, [start, end]);
-
-  const reveal = useTransform(progress, (p) => {
-    const { start: a, end: b } = rangeRef.current;
-    if (b <= a) return p >= b ? 1 : 0;
-    const v = (p - a) / (b - a);
+  // A function transformer rather than a [start, end] input range: the range
+  // would depend on measured layout, and framer-motion captures an input range
+  // on first render, silently ignoring later updates.
+  const reveal = useTransform(frontier, (f) => {
+    const v = (f - index) / REVEAL_WINDOW;
     return v < 0 ? 0 : v > 1 ? 1 : v;
   });
 
@@ -270,10 +256,7 @@ export function ScrollLetter() {
     offset: ["start start", "end end"],
   });
 
-  const [metrics, setMetrics] = useState<Metrics>(() => ({
-    offsetsVh: [],
-    travelVh: travelFor(FALLBACK_CONTENT_VH),
-  }));
+  const [metrics, setMetrics] = useState<Metrics>(() => ({ offsetsVh: [] }));
 
   // Measure layout offsets, not bounding rects: the words carry their own
   // y/scale transforms mid-animation, which would corrupt getBoundingClientRect.
@@ -290,10 +273,7 @@ export function ScrollLetter() {
         const i = Number(el.dataset.word);
         if (Number.isInteger(i)) offsetsVh[i] = ((el.offsetTop - base) / vh) * 100;
       });
-      setMetrics({
-        offsetsVh,
-        travelVh: travelFor((inner.offsetHeight / vh) * 100),
-      });
+      setMetrics({ offsetsVh });
     };
 
     measure();
@@ -328,19 +308,36 @@ export function ScrollLetter() {
   }));
 
   const totalWords = cursor;
-  const travelRef = useRef(metrics.travelVh);
+
+  // Read through a ref: the transformers below are created once, but the
+  // measured offsets arrive a commit later.
+  const offsetsRef = useRef(metrics.offsetsVh);
   useEffect(() => {
-    travelRef.current = metrics.travelVh;
-  }, [metrics.travelVh]);
-  const contentY = useTransform(scrollYProgress, (p) => {
-    const t = Math.min(p, HOLD_END_P) / HOLD_END_P; // hold after HOLD_END_P
-    return `${START_VH - travelRef.current * t}vh`;
+    offsetsRef.current = metrics.offsetsVh;
+  }, [metrics.offsetsVh]);
+  const totalRef = useRef(totalWords);
+  useEffect(() => {
+    totalRef.current = totalWords;
+  }, [totalWords]);
+
+  // The frontier runs past the last index by REVEAL_WINDOW so the final word
+  // has room to finish fading before the hold begins.
+  const frontier = useTransform(scrollYProgress, (p) => {
+    const t = Math.min(p, HOLD_END_P) / HOLD_END_P;
+    return t * (totalRef.current - 1 + REVEAL_WINDOW);
   });
 
-  // Before measurement lands, approximate offsets by spreading words evenly.
-  const offsetFor = (index: number) =>
-    metrics.offsetsVh[index] ??
-    (index / Math.max(totalWords, 1)) * FALLBACK_CONTENT_VH;
+  // Column position follows the frontier: still at START_VH while the letter
+  // fills downward, then travelling just enough to hold the newest word at the
+  // reading line.
+  const contentY = useTransform(frontier, (f) => {
+    const offset = offsetAt(
+      offsetsRef.current,
+      Math.min(f, totalRef.current - 1),
+      totalRef.current,
+    );
+    return `${Math.min(START_VH, SETTLE_VH - offset)}vh`;
+  });
 
   return (
     <div ref={ref} className="relative h-[600vh] w-full">
@@ -378,26 +375,17 @@ export function ScrollLetter() {
                 key={li}
                 className={`flex flex-wrap items-baseline justify-center gap-x-[0.35em] gap-y-1 leading-[1.05] ${line.sizeClass} ${line.gap ?? ""}`}
               >
-                {entries.map((entry, wi) => {
-                  const { start, end } = revealRange(
-                    offsetFor(entry.index),
-                    metrics.travelVh,
-                    entry.stagger,
-                  );
-                  return (
-                    <Word
-                      key={wi}
-                      progress={scrollYProgress}
-                      start={start}
-                      end={end}
-                      emphasis={entry.emphasis}
-                      className={entry.className}
-                      index={entry.index}
-                    >
-                      {entry.word.text}
-                    </Word>
-                  );
-                })}
+                {entries.map((entry, wi) => (
+                  <Word
+                    key={wi}
+                    frontier={frontier}
+                    index={entry.index}
+                    emphasis={entry.emphasis}
+                    className={entry.className}
+                  >
+                    {entry.word.text}
+                  </Word>
+                ))}
               </div>
             ))}
           </div>
